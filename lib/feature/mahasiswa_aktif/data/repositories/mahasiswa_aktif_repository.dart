@@ -1,11 +1,24 @@
-import '../models/mahasiswa_aktif_model.dart';
+import 'package:week4/feature/mahasiswa_aktif/data/models/mahasiswa_aktif_model.dart';
+import 'package:dio/dio.dart';
 
 class MahasiswaAktifRepository {
-  Future<List<MahasiswaAktifModel>> getList() async {
-    await Future.delayed(const Duration(seconds: 1));
-    return [
-      MahasiswaAktifModel(nama: 'Faza', nim: '152001001', status: 'Aktif (Semester 4)'),
-      MahasiswaAktifModel(nama: 'Nadhifa', nim: '152001002', status: 'Aktif (Semester 4)'),
-    ];
+  final Dio _dio = Dio();
+
+  Future<List<MahasiswaAktifModel>> getMahasiswaAktifList() async {
+    try {
+      final response = await _dio.get('https://jsonplaceholder.typicode.com/posts');
+
+      if (response.statusCode == 200) {
+
+        final List<dynamic> data = response.data;
+        return data.map((json) => MahasiswaAktifModel.fromJson(json)).toList();
+
+      } else {
+        throw Exception('Gagal memuat data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan Dio: $e');
+      throw Exception('Gagal memuat data: $e');
+    }
   }
 }

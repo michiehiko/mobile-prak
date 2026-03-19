@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
 
       //home: const DashboardPage(),
-      //home: const MahasiswaPage(),
+      home: const MahasiswaPage(),
       //home: const MahasiswaAktifPage(),
-      home: const DosenPage(),
+      //home: const DosenPage(),
       //home: const ProfilePage(),
     );
   }

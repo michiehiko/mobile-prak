@@ -1,12 +1,25 @@
-import '../models/mahasiswa_model.dart';
+import 'package:week4/feature/mahasiswa/data/models/mahasiswa_model.dart';
+import 'package:dio/dio.dart';
 
 class MahasiswaRepository {
+  // Panggil kurir VIP
+  final Dio _dio = Dio();
+
   Future<List<MahasiswaModel>> getMahasiswaList() async {
-    await Future.delayed(const Duration(seconds: 1));
-    return [
-      MahasiswaModel(nama: 'Faza', nim: '152001001', prodi: 'D4 Teknik Informatika'),
-      MahasiswaModel(nama: 'Nadhifa', nim: '152001002', prodi: 'D4 Teknik Informatika'),
-      MahasiswaModel(nama: 'Bintang', nim: '152001003', prodi: 'D4 Teknik Informatika'),
-    ];
+    try {
+      final response = await _dio.get('https://jsonplaceholder.typicode.com/comments');
+
+      if (response.statusCode == 200) {
+
+        final List<dynamic> data = response.data;
+
+        return data.map((json) => MahasiswaModel.fromJson(json)).toList();
+      } else {
+        throw Exception('Gagal memuat data mahasiswa: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Terjadi kesalahan: $e');
+      throw Exception('Gagal memuat data: $e');
+    }
   }
 }
