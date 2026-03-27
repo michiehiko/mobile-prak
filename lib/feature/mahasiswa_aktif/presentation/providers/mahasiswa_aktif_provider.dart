@@ -11,7 +11,7 @@ class MhsAktifNotifier extends StateNotifier<AsyncValue<List<MahasiswaAktifModel
   Future<void> load() async {
     state = const AsyncValue.loading();
     try {
-      state = AsyncValue.data(await _repo.getList());
+      state = AsyncValue.data(await _repo.getMahasiswaAktifList());
     } catch (e, st) {
       state = AsyncValue.error(e, st);
     }
